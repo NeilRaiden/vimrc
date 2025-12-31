@@ -1,0 +1,409 @@
+set nocompatible
+syntax on
+filetype on
+
+" ---------
+"ls /usr/share/vim/vim91/keymap
+" IMPORTANT: run ':version' to make sure that vim is compiled with the '+keymap' option
+" 1. If VIM **is** compiled with the '+keymap' option, switch to another keymap, for example:
+"   :set keymap=dvorak
+"   "In Insert and Command-line mode CTRL-^ toggles between using the keyboard map or not. |i_CTRL-^| |c_CTRL-^|
+" 2. If VIM **is not** compiled with '+keymap' option, create your own "keymap" with "inoremap" 
+" ---------
+
+" --- line numbers: see mapping <leader>nr and <leader>na
+set number
+set relativenumber
+" --- :set list!
+set listchars=eol:↵,tab:‹·›
+" various Unicode points that can be used for displaying newline:
+" U+23CE ⏎
+" U+21B5 ↵ (DOWNWARDS ARROW WITH CORNER LEFTWARDS)
+" U+21A9 ↩ (LEFTWARDS ARROW WITH HOOK)
+" --- :autocmd - show line numbers only in active window
+" When leaving a window or losing focus, turn off relative line numbers
+au WinLeave * set norelativenumber
+au FocusLost * set norelativenumber
+au WinLeave * set nonumber
+au FocusLost * set nonumber
+" When re-entering a window or losing focus, turn back on relative line numbers
+au WinEnter * set relativenumber
+au FocusGained * set relativenumber
+au WinEnter * set number
+au FocusGained * set number
+
+" --- encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set termencoding=utf-8
+
+" --- colors:
+" macOS: in iTerm2 set terminal to: xterm-256color
+"        (under Settings > Profiles > Terminal > Report Terminal Type).
+set t_Co=256
+
+set laststatus=2        " eanble status line
+set showtabline=2       " show tab line above
+set hlsearch            " highlight search, use ":noh" to turn off.
+set textwidth=0         " disable line breaking at col 79
+set splitright          " new split-window will be on the right.
+" Note: splitright doesn't work for ":new", ":term" 
+"	- use ":vert new filename", or ":vert term", etc
+"	- seems to work fine for ":help", though.
+
+"set tabstop=4           " 4 spaces for tab
+"let tabsize = 4
+"execute "set tabstop=".tabsize
+"execute "set shiftwidth=".tabsize
+"execute "set softtabstop=".tabsize
+
+" --- prevent auto-converting tabs to spaces
+set noexpandtab
+set preserveindent
+set softtabstop=0  " 0 = prevent automatic conversion of tabs to spaces
+set tabstop=4      " must be positive
+" note: use ":retab" to convert tabs to spaces, if needed.
+
+" --- line wrapping 
+" use "gk" or "gj" to move up/down within the wrapped line)
+" note: wrapping breaks words, consider breaking long lines with "gq"
+set wrap           " wrap line (not break)
+"set nowrap        " use gq to break long lines to VIM lines
+
+" --- other settings:
+set scrolloff=5       " scroll when 5 lines from top or bottom:
+"set colorcolumn=120  " black vertical bar at column 120
+
+" --------- file browser (netrw)
+let g:netrw_banner=0   " disable banner in file browser:
+" ============================================================================
+" Netrw Directory Listing                                        (netrw v173)
+"   /Users/username/.vim/config/
+"   Sorted by      name
+"   Sort sequence: [\/]$,\<core\%(\.\d\+\)\=\>,\.h$,\.c$,\.cpp$,\~\=\*$,*,\.o$,\.obj$,\.info$,\.swp$,\.bak$,\~$
+"   Quick Help: <F1>:help  -:go up dir  D:delete  R:rename  s:sort-by  x:special
+" ==============================================================================
+let g:netrw_browse_split=4 " open in prior window
+let g:netrw_altv=1         " open spllit to the right
+let g:netrw_liststyle=3    " tree view
+"let g:netrw_list_hide=netrw_gitignore#Head()
+"let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+" --- To start file browser:
+" :edit .     " edit current direcotry
+" :Lexplore
+" :Explorer
+" :help netrw_browse_maps
+
+" --------- <leader> key mapping:
+" <leader> key:
+" use: ':map <leader>' to list user-defined <leader> shortcuts
+" most VIM users remap the <leader> to either comma or spacebar (easier to access than the backslash key):
+" note: backslash key on Europeans ISO keyboards is placed between the "'" and "enter" keys.
+"       While on American ANSI keyboard the backslash key is above the "enter" key.
+"       Obviously, Bram Molenar used an ISO keyboard and thought that mapping the <leader> key to "\" is a great idea.
+" example: to enter VimWiki: comma-w-w or space-w-w
+" note: VIM waits for 1000ms whenever you press (,) to see if you actually meant (,) or if you meant ,<something>.
+"       Use "set timeoutlen=500" to change that value.
+" define two leaders, global and local:
+"let mapleader = ","
+let mapleader = " "
+let localmapleader = "\<Space>"
+
+" --- creating custom shortcuts:
+"nnoremap <leader>a <something>
+"xnoremap <localleader>w <something else>
+
+" open personal VIM cheatsheet:
+nnoremap <leader><leader>c :65vsp ~/.vim/cheatsheet.md<cr>
+" load default "~/.vimrc":
+"nnoremap <leader>vc  :source ~/.vimrc
+" load custom ".vimrc-vm":
+nnoremap <leader>so :source ~/.vimrc-vm<CR>:echo "Reloaded .vimrc-vm"<CR>
+" open VIM file explorer in left window (width 20%):
+nnoremap <leader>f :20Lexplore<CR>
+" <leader>pp  - toggle paste mode:
+nnoremap <leader>pp :set paste!<CR>
+" <leader>;  - add a semicolon at the end of the current line without moving the cursor - for coding:
+nnoremap <leader>; m'A;<ESC>`'
+" <leader>cw  - clear trailing whitespaces ( cw = Clear Whitespaces ):
+nnoremap <leader>cw :%s/\s\+$//g<CR>:nohlsearch<CR>
+" <Leader>v  - split window vertically and then move to that split, instead of <C-w>v<C-w>l
+" nnoremap <Leader>v <C-w>v<C-w>l
+" --- toggle relative number
+nnoremap <leader>nr :set relativenumber!<CR>
+nnoremap <leader>na :set number!<CR>
+" next buffer window instead of :bnext
+nnoremap <leader>n :bnext
+" previous buffer window instead of :bprev
+nnoremap <leader>N :bprev
+" --- scrollbind and cursorbind - bind two windows to scroll together for 'diff' effect
+"   (note: type " sb" in NORMAL mode in both windows for this to take effect)
+nnoremap <leader>sb :set scrollbind <bar> :set cursorbind<CR>
+
+" --------- other custom mappings:
+" --- turn off that irritating search highlights when done searching:
+"nnoremap <silent> <leader>n :nohlsearch<CR>
+nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+"nnoremap <silent> <ESC><ESC> :<C-u>nohlsearch<CR>
+
+" --- paste current date (MS-Excel style):
+"  format examples:
+"     date <ctrl+;>         : 2024-05-15
+"     time <ctrl+'>         : 12:02:10
+"     date <ctrl+shift+;>   : Tue, Oct 01
+"     week # <ctrl+shift+'> : 30
+" note <C-S-key> doesnt work in VIM but does in NVIM (neovim).
+"nnoremap <C-;> :put =strftime('%Y-%m-%d')<CR>
+"nnoremap <C-'> :put =strftime('%H:%M:%S')<CR>
+"nnoremap <C-:> :put =strftime('%a, %b %d')<CR>
+"nnoremap <C-"> :put =strftime('%V')<CR>
+inoremap <C-;> <C-r>=strftime('%Y-%m-%d')<CR>
+inoremap <C-'> <C-r>=strftime('%H:%M:%S')<CR>
+inoremap <C-:> <C-r>=strftime('%a, %b %d')<CR>
+inoremap <C-"> <C-r>=strftime('%V')<CR>
+
+" --- delete whole word with Alt+Backspace
+" map Alt+BackSpace (Option+Back on macOS) to delete whole last word (vim default is <C-w> same as '<ESC>dbxi'):
+" inoreamp - INSERT mode
+" cnoremap - COMMANDLINE mode
+" doesn't work in GhosTTY+Vim on macOS:
+"inoremap <Esc><BS> <C-W>
+"cnoremap <Esc><BS> <C-W>
+" works in GhosTTY+Vim on macOS:
+inoremap <M-BS> <C-W>
+cnoremap <M-BS> <C-W>
+" note: <C-BS> doesn't work in macOS
+"inoremap <C-BS> <C-@>
+"inoremap <C-BS> <C-W>
+
+" --- splits/windows/viewports/panes:
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" --- move between tabs
+nnoremap <left> gT
+nnoremap <right> gt
+" --- alternative 1:
+" alt+t for new tab; alt+l next tab; alt+h prev tab
+"nnoremap <M-t> :tabnew<cr>
+"nnoremap <M-l> :tabn<cr>
+"nnoremap <M-h> :tabp<cr>
+
+" --- buffers
+" list buffers then swich:
+nnoremap gb :ls<cr>:b<space>
+
+" INSERT mode remaps:
+" --- old school ESC from INSERT mode with a quick "jk":
+inoremap jk <ESC>
+set timeoutlen=250
+" other ESC key tips:
+"   * press "Ctrl+["
+"   * macOS: " → System Preferences → Keyboard → Keyboard Shortcuts (button) → Modifier Keys", then set "Caps Lock (⇪) key" to "⎋ Escape"
+
+" --- CTRL-U in insert mode deletes a lot.
+" Use CTRL-G u to first break undo, so that you can undo CTRL-U after inserting a line break.
+" Revert with ":iunmap <C-U>".
+"inoremap <C-U> <C-G>u<C-U>
+inoremap <C-u> <C-G>u<C-u>
+
+" --- simplify navigation in Vim's help pages:
+" 1. press Enter to jump to a tag
+" 2. press BackSpace to jump back
+autocmd FileType help nnoremap <buffer> <CR> <C-]>
+autocmd FileType help nnoremap <buffer> <BS> <C-o>
+" open help window in vertical split on the right (type ":H " - it will autofill):
+autocmd! FileType help :wincmd L
+" or use :H instead of :h or :help:
+"cnoreabbrev H vert help
+
+" --- terminal window with F6:
+" save all buffers and open terminal in the bottom-right pane:
+"nnoremap <F6> :wa \| vertical botright term ++kill=term<CR>
+nnoremap <F6> :wa <bar> vertical botright term ++kill=term<CR>
+
+" --------- colors
+" Note: cursorline must be activated after colorscheme
+colorscheme slate
+" --- cursor line
+set cursorline
+highlight Cursor ctermbg=Gray guibg=Gray
+"highlight Cursor guibg=#rrggbb
+"highlight Cursor ctermfg=Black ctermbg=Gray guifg=black guibg=Gray
+"highlight Cursor ctermfg=Black ctermbg=LightGreen cterm=bold guifg=black guibg=green gui=bold
+"highlight CursorLine ctermfg=Black ctermbg=LightGrey cterm=bold guifg=black guibg=grey gui=bold
+"highlight CursorLine term=bold cterm=bold guibg=Grey40
+
+" ------------ VIM cursor settings
+" Note: when VIM starts the cursor in Normal mode is a "solid block" - it switches to "blinking block" after switching modes and getting back to Normal.
+"Mode Settings
+let &t_SI.="\e[5 q" "SI = INSERT mode        - 5=blinking vert bar
+let &t_SR.="\e[4 q" "SR = REPLACE mode       - 4=solid underscore
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE) - 1=blinking block
+"Cursor settings:
+"  1 -> blinking block
+"  2 -> solid block
+"  3 -> blinking underscore
+"  4 -> solid underscore
+"  5 -> blinking vertical bar
+"  6 -> solid vertical bar
+
+" --- change cursor color depending on mode (SI - Insert, SR - Replace, EI - Normal):
+" Note: cursor is a solid block
+"if &term =~ "xterm"
+"	let &t_SI = "\<Esc>]12;purple\x7"
+"	let &t_SR = "\<Esc>]12;red\x7"
+"	let &t_EI = "\<Esc>]12;blue\x7"
+"endif
+" ------------
+
+" ------------ Keyboard layout name
+let g:layout = "Default"
+" ------------ color definitions for statusline
+" 1st pair
+hi User1 ctermfg=Black      ctermbg=LightGreen cterm=bold gui=bold
+hi User2 ctermfg=LightGreen ctermbg=Black      cterm=bold gui=bold
+" 2nd pair
+hi User3 ctermfg=LightGrey  ctermbg=Black      cterm=bold gui=bold
+hi User4 ctermfg=Black      ctermbg=LightGrey  cterm=bold gui=bold
+" 3rd pair
+hi User5 ctermfg=LightBlue  ctermbg=Black      cterm=bold gui=bold
+hi User6 ctermfg=Black      ctermbg=LightBlue  cterm=bold gui=bold
+hi User7 ctermfg=Red        ctermbg=LightBlue  cterm=bold gui=bold
+" unused:
+hi User8 ctermfg=Black      ctermbg=LightGreen cterm=bold gui=bold
+hi User9 ctermfg=Black      ctermbg=LightGrey  cterm=bold gui=bold
+hi User0 ctermfg=Black      ctermbg=LightRed   cterm=bold gui=bold
+" ------------ color definitions end
+
+" ------------ statusline start
+" simple statusline:
+" set statusline=%F[%L][%{&ff}]%y[%04l,%04v]
+" nice statusline:
+hi StatusLine   cterm=bold
+hi StatusLineNC cterm=bold
+" e0b6      - e0b4   ; '\ ' = space must be escaped with '\'
+" %< -
+" %n - buffer number
+" %F - path/filename
+" %f - filename only
+" %m - modified (show "[+]" when modified, otherwise nothing)
+" %r - read-only
+" %w - writeable?
+" %y - filetype enclosed in brackets: [vim]
+" %B - hex of character under cursor
+" %c - column
+" %l - current line
+" %L - total lines
+" %p - percent of file (also shows "top" or "bottom" when near top or bottom)
+" %P - percent of file (adds "%" at the end)
+" %{&filetype} - filetype (no brackets)
+" %{&ff}       - file format (dos/unix)
+" %{&enc}      - encoding
+" %{&fenc}     - file encoding
+set statusline=
+set statusline+=%3*\%4*%n%3*\                       " BufferNr
+set statusline+=%2*\%1*%=%<%F\ %m%r%w%y%=%2*\       " File+Path [modified,readonly][Filetype]
+" set statusline+=%3*\\ %{(&bomb?\",BOM\":\"\")}\ \ " BOM
+set statusline+=%3*\%4*%{&ff}:                       " FileFormat
+set statusline+=%{(&fenc!=''?&fenc:&enc)}%3*\        " encoding
+set statusline+=%5*\%6*U+%B%5*\                     " Hex char under cursor
+set statusline+=%3*\%4*%03c:%l/%L(%P)%3*\           " ColumnNR:RowNR/TotalLines(PercentOfFile%)
+set statusline+=%2*\%1*%{layout}%2*\                " VIM "keyboard layout"
+" examples :
+" E0B6  and E0B4  from "Private Use Area" Unicode block:
+"1    ~/.vimrc [+][vim]   unix:utf8U+E0B6069:284/485(58%)Dvorak
+" other symbols for dividers (from "Legacy Computing" Unicode block U+1FB00-1FBFF):
+" single color statusline:
+"🭪1🮚    ~/.vimrc [+][vim]   🮚unix:utf8🮚U+E0B6🮚069:284/485(58%)🮚Dvorak🭨
+"🭛1🭋    ~/.vimrc [+][vim]    unix:utf8 🭛U+E0B6🭋 069:284/485(58%)🭛Dvorak🭋
+" ------------ statusline end
+
+" ------------ spell check colors
+"hi clear SpellBad
+hi SpellBad   cterm=bold,underline ctermfg=Magenta guifg=#ff5f5f
+"hi SpellBad  cterm=underline      ctermfg=Red ctermbg=LightGray guifg=#ff5f5f guibg=#000000   " misspelled words
+hi SpellLocal cterm=bold,underline ctermfg=203 ctermbg=LightGray guifg=#ff5f5f guibg=#000000   " local (eg: color vs colour ; US vs UK)
+hi SpellRare  cterm=bold,underline ctermfg=203 ctermbg=LightGray guifg=#ff5f5f guibg=#000000   " rare words
+"hi SpellCap   cterm=bold,underline ctermfg=203 ctermbg=LightCyan guifg=#ff5f5f guibg=#000000   " not capitalized after '. '. like this
+hi clear SpellCap  " disable shownig capitalization errors
+
+" --- set style for term vim
+"hi SpellBad cterm=underline
+" --- set style for gVim
+"hi SpellBad gui=undercurl
+
+
+" --------- cursorline
+" restrict the highlighting to only the current window, use an autocmd block in your .vimrc:
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
+
+" ------------ make Shavian bold
+" highlight Unicode cterm=bold
+" match Unicode "[^\xF0-\xFF]"
+" highlight Shavian cterm=bold ctermfg=white guifg=white " bold doesn't work because the font is not bold
+"highlight Shavian ctermfg=white guifg=white
+"highlight Shavian ctermfg=LightBlue guifg=white
+highlight Shavian ctermfg=LightCyan guifg=white
+match Shavian "[𐑐-𐑿]"
+" ------------
+
+" --------- overlay buffer
+set guioptions+=o
+
+" --------- scripts ---------
+" --- add auto-pairing of brackets, quotation marks, etc:
+source ~/.vim/config/auto-pairs.vim
+" --- add Keyboard Layouts Selector:
+source ~/.vim/config/layouts.vim
+" --- spell-check options
+source ~/.vim/config/spell.vim
+" --- VIM tools popup:
+source ~/.vim/config/tools.vim
+" --- open Web browser:
+" gx - open any link under cursor
+" gy - open word under cursor in a dictionary, like "Collins.com"
+" <leader>w - select phrase in VISUAL (viw) then open "Wikipedia" for that phrase
+source ~/.vim/config/web.vim
+" --- local pronunciation lookup
+" <leader>d - shows pronounciation of word under cursor:
+source ~/.vim/config/dict.vim
+
+" --------- Console menus:
+" ":help console-menus" - show menu help
+" Although this documentation is in the GUI section,
+" you can actually use menus in console mode too.
+" You will have to load |menu.vim| explicitly then, it is
+" not done by default.
+" You can use the |:emenu| command and command-line
+" completion with 'wildmenu' to access the menu
+" entries almost like a real menu system.
+
+" --- load "/usr/share/vim/vim91/menu.vim"
+source $VIMRUNTIME/menu.vim
+" --- load custom menu.vim
+"source ~/.vim/config/mymenu.vim
+
+" --- wildmenu = command-line completion (use TAB):
+set wildmenu
+set cpo-=<
+set wcm=<C-Z>
+" --- Pressing <F4> will start the menu.
+map <F4> :emenu <C-Z>
+" You can now use the cursor keys to select a menu entry.
+" Hit <Enter> to execute it.
+" Hit <Esc> if you want to cancel.
+" This does require the |+menu| feature enabled at compile time.
+
+" --- Custom splash screen:
+" source ~/.vim/config/start.vim
+" --- disable splash screen (see ':vert :help :intro'):
+set shortmess+=I
+
+" --------- end of file
