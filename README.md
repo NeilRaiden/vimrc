@@ -26,21 +26,22 @@ This repository contains setup files for VIM text editor with the following feat
 * use `gx` to launch a web browser and open an http link under the cursor
 * use `gy` to launch a web browser and lookup word under the cursor in pre-defined online dictionary (Collins.com)
 * Spacebar is configured as the `<leader>` key.
-    - `<space>c` - show simple VIM cheat sheet in right split-window.
+    - `<space><space>c` - show simple VIM cheat sheet in right split-window.
     - `<space>s` - shows spell-check options.
     - `<space>t` - shows pop-up with various tools.
     - `<space>d` - to show simple pop-up window with the spelling of the word under the cursor (requires "KingsleyReedLexicon" in `~/KRL` directory - not included yet).
     - `<space><space><space>` - shows pop-up window with keyboard layouts to select
-    - _note: after activating a "keyboard layout" use `<space>c` to open a right split-window with the corresponding layout for reference._ 
-* The time allotted for typing `<leader>+key` shortcuts is set to 500 milliseconds (see: `set timeoutlen=500`).
+    - `<space>c` - after activating a "keyboard layout" use this shortcut to open a right split-window with the corresponding layout for reference. 
+* The time allotted for typing `<leader>+key` shortcuts is set to 500 milliseconds (see: `set timeoutlen=500`) — adjust if needed, or comment out or delete timeoutlen from `.vimrc-vm` (default value is 1000 milliseconds).
 
 ---
 
 ## Description
 
 What problems this projects aims to solve:
-* Problem 1: the `vim` editor available in Homebrew is **not** compiled with the `+keymap` option.
+* Problem 1: the `vim` editor available in Homebrew repository is **not** compiled with the `+keymap` option. Because of that building custom VIM keyboard layout is impossible.
 * Problem 2: some terminal emulators (GhosTTY) override the keyboard layout from the operating system.  
+* Problem 3: users may not be able to install custom keyboard layouts on a machine without root or administrator privileges — in such case they can use keyboard layout dfined within VIM editor.
 
 Solutions:
 - Solution to problem 1&2: create keyboard layouts using `inoremap`.
