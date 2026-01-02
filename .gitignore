@@ -1,0 +1,22 @@
+tests/
+logs/
+
+# JPEG
+*.jpg
+*.jpeg
+*.jpe
+*.jif
+*.jfif
+*.jfi
+
+# Graphics Interchange Format
+*.gif
+
+# Portable Network Graphics
+*.png
+
+# Font files
+*.TTF
+*.ttf
+*.otf
+*.woff2
