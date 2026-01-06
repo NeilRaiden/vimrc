@@ -30,7 +30,6 @@
 "   function_LayoutDvorak     - Dvorak layout
 "   function_LayoutRussian    - Russian layout (aka: "ЙЦУКЕН")
 "   function_LayoutGerman     - German layout
-"   function_LayoutDefault    - reset to the "default" VIM layout
 " function_CommonImaps        - common imaps (jk for ESC, M+BS for C-W, timestamps, etc)
 " function_PopupLayouts       - display layout selector pup-up window
 
@@ -83,14 +82,18 @@ function! SelectLayout(id, result)
 
     " 'Writer',
     if a:result == 1
+		let g:layout = "Writer"
+		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/writer.md')
-		nnoremap <leader>c :65vsp ~/.vim/layouts/writer.md<cr>
 		call LayoutWriter()
 		call CommonImaps()
+		nnoremap <leader>c :65vsp ~/.vim/layouts/writer.md<cr>
     endif
 
     " 'ESL',
     if a:result == 2
+		let g:layout = "ESL"
+		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/ESL.md')
 		nnoremap <leader>c :65vsp ~/.vim/layouts/ESL.md<cr>
 		call LayoutESL()
@@ -99,6 +102,8 @@ function! SelectLayout(id, result)
 
     " 'US phonemic',
     if a:result == 3
+		let g:layout = "US phonem"
+		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/USphonemic.md')
 		nnoremap <leader>c :65vsp ~/.vim/layouts/USphonemic.md<cr>
 		call LayoutUSphonemic()
@@ -107,6 +112,8 @@ function! SelectLayout(id, result)
 
     " 'UK phonemic',
     if a:result == 4
+		let g:layout = "UK phonem"
+		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/UKphonemic.md')
 		nnoremap <leader>c :65vsp ~/.vim/layouts/UKphonemic.md<cr>
 		call LayoutUKphonemic()
@@ -115,6 +122,8 @@ function! SelectLayout(id, result)
 
     " 'UK rhotic',
     if a:result == 5
+		let g:layout = "UK rhotic"
+		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/UKphonemic.md')
 		nnoremap <leader>c :65vsp ~/.vim/layouts/UKrhotic.md<cr>
 		call LayoutUKrhotic()
@@ -123,6 +132,8 @@ function! SelectLayout(id, result)
 
     " 'Shavian',
     if a:result == 6
+		let g:layout = "Shavian"
+		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/shavian.md')
 		nnoremap <leader>c :65vsp ~/.vim/layouts/shavian.md<cr>
 		call LayoutShavian()
@@ -131,6 +142,8 @@ function! SelectLayout(id, result)
 
 	" 'Frames',
     if a:result == 7
+		let g:layout = "Frames"
+		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/frames.md')
 		nnoremap <leader>c :65vsp ~/.vim/layouts/frames.md<cr>
 		call LayoutFrames()
@@ -139,6 +152,8 @@ function! SelectLayout(id, result)
 
     " 'ASERTH',
     if a:result == 8
+		let g:layout = "ASERTH"
+    	imapclear
 		nnoremap <leader>c :65vsp ~/.vim/layouts/aserth.md<cr>
 		call LayoutASERTH()
 		call CommonImaps()
@@ -146,6 +161,8 @@ function! SelectLayout(id, result)
 
 	" 'Colemak-DH',
     if a:result == 9
+		let g:layout = "Colemak-DH"
+    	imapclear
 		nnoremap <leader>c :65vsp ~/.vim/layouts/colemakdh.md<cr>
 		call LayoutColemakDH()
 		call CommonImaps()
@@ -153,6 +170,8 @@ function! SelectLayout(id, result)
 
 	" 'Dvorak',
     if a:result == 10
+		let g:layout = "Dvorak"
+    	imapclear
 		nnoremap <leader>c :65vsp ~/.vim/layouts/dvorak.md<cr>
 		call LayoutDvorak()
 		call CommonImaps()
@@ -161,25 +180,47 @@ function! SelectLayout(id, result)
 	" 'Russian',
 	"let g:layout = "ЙЦУКЕН"
     if a:result == 11
+		let g:layout = "ЙЦУКЕН"
+    	imapclear
 		nnoremap <leader>c :65vsp ~/.vim/layouts/russian.md<cr>
+		" layers 1 & 2:
 		call LayoutRussian()
+		" layers 3 & 4:
+		call LayoutWriter()
 		call CommonImaps()
     endif
 
 	" 'German',
     if a:result == 12
+		let g:layout = "German"
+    	imapclear
 		nnoremap <leader>c :65vsp ~/.vim/layouts/german.md<cr>
-		call LayoutGerman()
+		" - layers 1 & 2 (old German):
+		"call LayoutGerman()
+		" German (Writer):
+		" - layers 1 & 2 the same as US(QWERTY):
+		" - layers 3 & 4 like Writer with exceptions:
+		call LayoutWriter()
+		" exceptions:
+		inoremap <M-D> ↑
+		inoremap <M-F> ̈
+		inoremap <M-u> ü
+		inoremap <M-i> ä
+		inoremap <M-o> ö
+		inoremap <M-U> Ü
+		inoremap <M-I> Ä
+		inoremap <M-O> Ö
 		call CommonImaps()
     endif
 
 	" 'Default',
     if a:result == 13
+		let g:layout = "Default"
+    	imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/readme.md')
 		"nnoremap <leader>c :65vsp ~/.vim/cheatsheet.md<cr>
 		"nnoremap <leader>c :65vsp ~/.vim/layouts/readme.md<cr>
 		nnoremap <leader>c :65vsp ~/.vim/layouts/default.md<cr>
-		call LayoutDefault()
 		call CommonImaps()
     endif
 endfunction
@@ -187,8 +228,6 @@ endfunction
 " --------- Layout functions
 " --- function_LayoutWriter
 function! LayoutWriter()
-	let g:layout = "Writer"
-	imapclear
 
 	"> Note 1: Layer 1 & 2 inherited from the system layout.
 	"> Note 2: (Windows/Linux) AltGr = RightAlt or Alt+Ctrl
@@ -362,8 +401,6 @@ endfunction
 
 " --- function_LayoutESL
 function! LayoutESL()
-	let g:layout = "ESL"
-	imapclear
 
 	"> Note: Layer 1 & 2 inherited from the system layout.
 
@@ -545,8 +582,6 @@ endfunction
 
 " --- function_LayoutUSphonemic
 function! LayoutUSphonemic()
-	let g:layout = "US phonem"
-	imapclear
 
 	" Layer 1 (Unshifted):
 	"┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
@@ -816,8 +851,6 @@ endfunction
 
 " --- function_LayoutUKphonemic
 function! LayoutUKphonemic()
-	let g:layout = "UK phonem"
-	imapclear
 
 	" Layer 1 (Unshifted):
 	"┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
@@ -1108,8 +1141,6 @@ endfunction
 
 " --- function_LayoutUKrhotic
 function! LayoutUKrhotic()
-	let g:layout = "UK rhotic"
-	imapclear
 
 	" Layer 1 (Unshifted):
 	"┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
@@ -1123,6 +1154,9 @@ function! LayoutUKrhotic()
 	"└─────────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────────┘
 
 	" --- TAB row:
+	"┌─────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬────┐
+	"│ tab │ɔɪ │ w │ ɛ │ r │ t │ɑː │ ʌ │ ɪ │ ɒ │ p │ [ │ ] │  \ │
+	"└─────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────┘
 	inoremap q ɔɪ
 	"inoremap w w
 	inoremap e ɛ
@@ -1135,6 +1169,9 @@ function! LayoutUKrhotic()
 	"inoremap p p
 
 	" --- CAPSL row (note: 'g' in IPA is U+0261):
+	"┌───────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
+	"│ caps  │ ə │ s │ d │ f │ ɡ │ h │ j │ k │ l │ ; │ ' │  ent │
+	"└───────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴──────┘
 	inoremap a ə
 	"inoremap s s
 	"inoremap d d
@@ -1146,6 +1183,9 @@ function! LayoutUKrhotic()
 	"inoremap l l
 
 	" --- SHIFT row:
+	"┌─────────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬────────┐
+	"│ shift   │ z │ɜːr│tʃ │ v │ b │ n │ m │ , │ . │ / │  shift │
+	"└─────────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────────┘
 	"inoremap z z
 	inoremap x ɜːr
 	inoremap c tʃ
@@ -1169,6 +1209,9 @@ function! LayoutUKrhotic()
 	"└─────────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────────┘
 
 	" --- NUMBERS row:
+	"┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
+	"│ ~ │ ! │ @ │ £ │ $ │ % │ ^ │ & │ * │ ( │ ) │ _ │ + │ bksp │
+	"└───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴──────┘
 	"inoremap <S-1> ! !
 	"inoremap <S-2> @ @
 	inoremap <S-3> £
@@ -1181,6 +1224,9 @@ function! LayoutUKrhotic()
 	"inoremap <S-0> ) )
 
 	" --- TAB row:
+	"┌─────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬────┐
+	"│ tab │aʊ │ɪə │eɪ │ɑːr│ θ │ɔː │ ʊ │iː │əʊ │ɔːr│ ⟨ │ ⟩ │  | │
+	"└─────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────┘
 	inoremap Q aʊ
 	inoremap W ɪə
 	inoremap E eɪ
@@ -1195,6 +1241,9 @@ function! LayoutUKrhotic()
 	"inoremap } }
 
 	" --- CAPS row:
+	"┌───────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
+	"│ caps  │ æ │ ʃ │ər │aɪ │ · │ ð │dʒ │ « │ » │ ː │ " │  ent │
+	"└───────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴──────┘
 	inoremap A æ
 	inoremap S ʃ
 	inoremap D ər
@@ -1207,6 +1256,9 @@ function! LayoutUKrhotic()
 	"inoremap : :
 
 	" --- SHIFT row:
+	"┌─────────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬────────┐
+	"│ shift   │ ʒ │ɛər│ɪər│juː│ ⸰ │ ŋ │ uː│ ‹ │ › │ ? │  shift │
+	"└─────────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────────┘
 	inoremap Z ʒ
 	inoremap X eər
 	inoremap C ɪər
@@ -1339,6 +1391,7 @@ function! LayoutUKrhotic()
 	inoremap <M-{> ⟮
 	inoremap <M-}> ⟯
 	inoremap <M-\|> ◦
+	"inoremap <bar> ◦
 
 	"┌───────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
 	"│ caps  │ ɐ │ ☺ │ ɚ │   │ ˀ │ ‑ │   │   │ ɫ │ § │   │  ent │
@@ -1376,8 +1429,6 @@ endfunction
 
 " --- function_LayoutShavian
 function! LayoutShavian()
-	let g:layout = "Shavian"
-	imapclear
 
 	"# Layer 1:
 	"┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
@@ -1428,7 +1479,6 @@ function! LayoutShavian()
 	inoremap n 𐑯
 	inoremap m 𐑥
 
-
 	"## Layer 2 (shift):
 	"┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
 	"│ ~ │ ! │ @ │ # │ $ │ % │ ^ │ & │ * │ ( │ ) │ _ │ + │ bksp │
@@ -1455,6 +1505,7 @@ function! LayoutShavian()
 	inoremap P 𐑹
 	"inoremap { {
 	"inoremap } }
+	"inoremap <bar> <bar>
 
 	" ┌───────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
 	" │ caps  │ 𐑨 │ 𐑖 │ 𐑼 │ 𐑲 │ · │ 𐑞 │ 𐑡 │ « │ » │ : │ " │  ent │
@@ -1489,8 +1540,6 @@ endfunction
 " ---------
 " --- function_LayoutFrames
 function! LayoutFrames()
-	let g:layout = "Frames"
-	imapclear
 
 	" --------- Apple symbols:
 	" ⌘ – Command Key symbol
@@ -1555,6 +1604,7 @@ function! LayoutFrames()
 	" ⌦ - U+2326  - Delete symbol
 		inoremap <M-S-q> ⇤
 		inoremap <M-S-\> ⌦
+		"inoremap <bar> ⌦
 
 	" --------- Row 3: Option + Key ---------
 	"┌───────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
@@ -1595,8 +1645,6 @@ endfunction
 
 " --- function_LayoutASERTH
 function! LayoutASERTH()
-	let g:layout = "ASERTH"
-    imapclear
 
 	" ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
 	" │ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ = │ bksp │
@@ -1651,8 +1699,6 @@ endfunction
 
 " --- function_LayoutColemakDH
 function! LayoutColemakDH()
-	let g:layout = "Colemak-DH"
-    imapclear
 
 	" Layer 1:
 	" ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
@@ -1745,8 +1791,6 @@ endfunction
 
 " --- function_LayoutDvorak
 function! LayoutDvorak()
-	let g:layout = "Dvorak"
-    imapclear
 
 	"┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
 	"│ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ = │ bksp │
@@ -1821,6 +1865,7 @@ function! LayoutDvorak()
 	inoremap P L
 	inoremap { ?
 	inoremap } +
+	"inoremap <bar> <bar>
 
 	"┌───────┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
 	"│ caps  │ A │ O │ E │ U │ I │ D │ H │ T │ N │ S │ _ │  ent │
@@ -1854,8 +1899,6 @@ endfunction
 
 " --- function_LayoutRussian
 function! LayoutRussian()
-	let g:layout = "ЙЦУКЕН"
-    imapclear
 
 	" русская клавиатура: ЙЦУКЕН
 	" Layer 1 (unshifted):
@@ -1976,12 +2019,12 @@ function! LayoutRussian()
 	inoremap > Ю
 	inoremap ? ,
 
+	" layers 3 and 4 are loaded from "Writer"
+	
 endfunction
 
 " ---  function_LayoutGerman
 function! LayoutGerman()
-	let g:layout = "German"
-    imapclear
 
 	"# Layer 1 (unshifted):
 	"┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
@@ -2077,14 +2120,8 @@ function! LayoutGerman()
 	inoremap > :
 	inoremap ? _
 
-	" todo: layer 3 and 4
+	" layers 3 and 4 are loaded from "Writer"
 
-endfunction
-
-" --- function_LayoutDefault
-function! LayoutDefault()
-	let g:layout = "Default"
-    imapclear
 endfunction
 
 " --- function_CommonImaps
