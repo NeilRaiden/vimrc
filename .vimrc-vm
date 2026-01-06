@@ -8,8 +8,14 @@ filetype on
 " 1. If VIM **is** compiled with the '+keymap' option, switch to another keymap, for example:
 "   :set keymap=dvorak
 "   "In Insert and Command-line mode CTRL-^ toggles between using the keyboard map or not. |i_CTRL-^| |c_CTRL-^|
-" 2. If VIM **is not** compiled with '+keymap' option, create your own "keymap" with "inoremap" 
+" 2. If VIM **is not** compiled with '+keymap' option, create your own "keymap" with "inoremap"
 " ---------
+
+" get rid of irritating "beep"
+set visualbell     " blink the screen istead of beep
+set noerrorbells
+set t_vb=
+set belloff=all
 
 " --- line numbers: see mapping <leader>nr and <leader>na
 set number
@@ -47,7 +53,7 @@ set showtabline=2       " show tab line above
 set hlsearch            " highlight search, use ":noh" to turn off.
 set textwidth=0         " disable line breaking at col 79
 set splitright          " new split-window will be on the right.
-" Note: splitright doesn't work for ":new", ":term" 
+" Note: splitright doesn't work for ":new", ":term"
 "	- use ":vert new filename", or ":vert term", etc
 "	- seems to work fine for ":help", though.
 
@@ -64,7 +70,7 @@ set softtabstop=0  " 0 = prevent automatic conversion of tabs to spaces
 set tabstop=4      " must be positive
 " note: use ":retab" to convert tabs to spaces, if needed.
 
-" --- line wrapping 
+" --- line wrapping
 " use "gk" or "gj" to move up/down within the wrapped line)
 " note: wrapping breaks words, consider breaking long lines with "gq"
 set wrap           " wrap line (not break)
@@ -108,6 +114,8 @@ let g:netrw_liststyle=3    " tree view
 "let mapleader = ","
 let mapleader = " "
 let localmapleader = "\<Space>"
+" since leader is mapped to <space> it can be repurposed to :nohlsearch
+nnoremap \ :noh<cr>
 
 " --- creating custom shortcuts:
 "nnoremap <leader>a <something>
@@ -143,8 +151,11 @@ nnoremap <leader>sb :set scrollbind <bar> :set cursorbind<CR>
 " --------- other custom mappings:
 " --- turn off that irritating search highlights when done searching:
 "nnoremap <silent> <leader>n :nohlsearch<CR>
-nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
-"nnoremap <silent> <ESC><ESC> :<C-u>nohlsearch<CR>
+" on Linux double <esc> blinks screen and cannot be remapped :(
+" warning: KiTTY does not allow double <esc>
+nnoremap <esc><esc> :nohlsearch<cr>
+"nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+"nnoremap <silent> <C-l> :noh<CR><C-l>
 
 " --- paste current date (MS-Excel style):
 "  format examples:
@@ -177,6 +188,7 @@ cnoremap <M-BS> <C-W>
 "inoremap <C-BS> <C-W>
 
 " --- splits/windows/viewports/panes:
+" note: by default Ctrl+L redraws the screen.
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
