@@ -27,6 +27,7 @@
 19. Digraphs
 20. VIM help
 
+
 ## Intro:
 
 * ':map <leader>' - list user-defined <leader> shortcuts
@@ -45,9 +46,9 @@
 * H|M|L   - move cursor to the top/middle/bottom of display
 * warning: `J` = join lines
 
-## 2. Jumping
+## 3. Jumping
 
-### 2.1. within the line
+### 3.1. within the line
 * w - jump to beginning of next word
 * W - jump to beginning of next word (greedy)
 * b - jump to beginning of prev word
@@ -57,18 +58,18 @@
 * 0 - jump to beginning of line
 * $ - jump to end of line
 
-### 2.2. within the buffer
+### 3.2. within the buffer
 * `#` jump to prev occurence of word under cursor (then N/n for next/prev)
 * `*` jump to next occurence of word under cursor (then n/N for next/prev)
 * `%` jump between opening and closing parentheses (before-after cursor)
 
-### Jumplist
+### 3.3 Jumplist
 
 * :jumps - show list of recent jumps
 * <c-i>  - move forward through the jumplist
 * <c-o>  - move backward through the jumplist
 
-## 3. Delete
+## 4. Delete
 
 * dd - delete current line
 * d0 - delete to the beginning of line
@@ -77,16 +78,45 @@
 * dw - delete word (from cursor to beginning of word)
 * db - delete word backwards (see <C-w> in INSERT mode)
 
-## 4. Find
+## 5. Find
 
-* fx      - find next character ("x") in line
-* Fx      - find prev character ("x") in line
-		- f<space> - jump to next space between words (better than `el`)
+### 5.1 find in line
+* fx      - find next character ("x") within current line
+* Fx      - find prev character ("x") within current line
+    - f<space> - jump to next space between words (better than `el`)
+* ';'     - jump to next "x" (no need to retype "fx" or "Fx")
+
+### 5.2 find in whole buffer
 * `*`|#   - jump to next/prev word under cursor (then n/N for next/prev)
 * `/pattern` - find next occurence of "pattern" (then n/N for next/prev)
 * `?pattern` - find prev occurence of "pattern" (then n/N for next/prev)
 * `:noh` or `:nohl` - turn off search highligts
 
+### 5.3 search two patterns simultaneously
+* `/pattern1/;/pattern2`
+* `/pattern1\|pattern2`
+* `/\vpattern1|pattern2` - `\v` (very magic) disables the need for escaping the bar
+
+### 5.4 Navigating search results
+* n = next 
+* N = previous
+* `/` - switch jump direction (forward)
+* `?` - switch jump direction (backward)
+
+### 5.5 Magic mode
+
+* `:set magic`   - turn on  the magic mode
+* `:set nomagic` - turn off the magic mode
+* `:set magic?`  - check if MAGIC mode is on or off
+* `/patt.*ern`  - in magic   mode the `.*` is a wildcard
+* `/patt.*ern`  - in nomagic mode the `.*` is searched literally
+
+### 5.6 Paste register to search line
+
+* `/<C-r><S-'>`
+    - `/`     - to start typing pattern
+    - `<C-r>` - to enter register
+    - `<S-'>` - enter value of the default register: `"`
 
 ## 6. Buffers
 
@@ -103,7 +133,7 @@
 - `:setlocal foldmethod=syntax` - activate folding based on syntax
 - `:setlocal foldopen-=block`   - navigation commands like { and } stop at closed folds rather than opening them.
 
-### current fold
+### 7.1 current fold
 * za - toggle the fold at the cursor position.
 * zo - open   the fold at the cursor.
 * zc - close  the fold at the cursor.
@@ -112,16 +142,16 @@
 * zO - open   all nested folds at the cursor.
 * zC - close  all nested folds at the cursor.
 
-### all folds throuout the whole buffer
+### 7.2 all folds throuout the whole buffer
 * zr - reduce folding by opening one more level of folds
 * zm - more   folding by closing one more level of folds
 * zR - open  all folds in the buffer
 * zM - close all folds in the buffer (easier navigation with zj/zk)
 
-### fold navigation
+### 7.3 fold navigation
 * zj / zk - jump to next/prev fold regardless if it's closed or open
 
-### most useful
+### 7.4 most useful
 - za, zA, zR, zM, zj/zk
 
 
@@ -133,9 +163,9 @@
 * `:term`      - open terminal (horizontal split)
 * `:vert term` - open terminal (vertical split)
 
-### Split navigation
+### 8.2 Split navigation
 
-* <C-w>w   - switch to next pane
+* <C-w>w   - switch to next pane (most useful with only 2 panes)
 * <C-w>h|l - switch to left (h) or right (l) pane
 * <C-w>j|k - switch to up (k) or down (j) pane
 
@@ -156,20 +186,45 @@
 
 > note: most often used: qqq for clearing, qq to record, @q to play)
 
-### Recurrent macro
+### 10.1 Recurrent macro
 
-Example: dump all files not found in custom spellcheck to a second spellfile:
+> Note: a-z macros are stored in a-z registies, accordingly.  
+> So do not record macro "a" if you need to use the content register "a" later.
+
+
+* Example 1: dump all files not found in custom spellcheck to a second spellfile:
 
 - `set spellfile=CustomSpellfile.utf-8.add`
 - `set spellfile+=SecondSpellFile.utf-8.add`
 - `set spell`
+- 'qqq' - clear macro 'q'
 - 'qq'  - start recording macro 'q'
 - ']s'  - jump to the next word not in spellcheck
 - '2zg' - add word to 2-nd spell dictionary (in this example: `SecondSpellFile.utf-8.add`)
 - '@q'  - run macro within itself
 - 'q'   - close recording macro
 
-### Macros in `norm` mode
+* Example 2: 
+
+```
+qqq             #clear out anything that may already be in the q register
+qq              #start recording a macro and store it in the q register
+y$              #copy to the end of the current line
+A               #append the end of the current line
+<Space>:<Space> #add a colon surrounded by spaces
+<Escape>        #return to visual mode
+p               #paste 
+F/              #find the last instance of /
+r-              #replace the / with a -
+;.              #repeat the last find and replace
+^               #go to the front of the line
+j               #move down one line
+@q              #make the macro recursive by having it invoke itself
+q               #stop recording the macro
+```
+
+
+### 10.2 Macros in the `norm` mode
 
 To apply the macro to a range of lines (use :normal command in Ex mode). Eexamples:
 * `:5,10norm! @a` - apply the macro stored in register 'a' to lines 5 through 10.
@@ -177,7 +232,7 @@ To apply the macro to a range of lines (use :normal command in Ex mode). Eexampl
 * `:g/pattern/norm! @a` - apply macro 'a' to lines matching a pattern.
 
 
-## 11. Increment - decrement
+## 11. Increment - decrement numbers
 
 * <c-a> increment number under cursor
 * <c-x> decremnet number under cursor
@@ -187,7 +242,7 @@ To apply the macro to a range of lines (use :normal command in Ex mode). Eexampl
 
 ## 12. Spelling
 
-### Spellcheck settings
+### 12.1 Spellcheck settings
 
 1. Global/local to buffer spell lang:
 	- `set spelllang=en_US`
@@ -212,48 +267,130 @@ To apply the macro to a range of lines (use :normal command in Ex mode). Eexampl
 
 ## 13. VISUAL mode
 
+### 13.1 basics
 * v - start VISUAL mode, select characters
 * V - start VISUAL line mode (whole lines)
-* <c-v> - start VISUAL block mode, vertical block 
+* `<C-v>` - start VISUAL block mode, vertical block 
 * vip - enter VISUAL mode, from inside, select whole paragraph
 * vap - similar, cursor below last line
 
-### in Visual mode
+### 13.2 In Visual mode
 
-* o - toggle selection direction
-* <c-a> and <c-x> for increment/decrement of numbers, dates, etc.
+* o - toggles direction of selecting
+* `<c-a>` and `<c-x>` for increment/decrement of numbers, dates, etc.
+* `<S-'><S-=>y` - copy to OS clipboard (to be pasted outside of VIM)
 
 ## 14. INSERT mode
 
+### 14.1 Basics
+
 * i - start writing before cursor
-* I - start writing at the beginning of line
-* o - new line below cursor line
-* O - new line above cursor
+* I - start writing at the beginning of line (but after tabs if any)
+* o - start new line below cursor line
+* O - start new line above cursor
+* a - append after cursor
+* A - append at the end of line
+* gi - jump to the end of last edit and continue appending
+* gI - similar to I (but before tabs if any)
 
-### in INSERT mode
+### 14.2 In INSERT mode
 
-* <C-j> - newline
-* <C-w> - delete last word
-* <C-y> - copy character from line above
-* <C-u> - delete last line 
+* <C-j> - insert newline
 * <C-i> - insert tab
-* <C-o> - toggle "pseudo-Normal" mode, examples:
-	- <c-o>dd - delete current line 
+* <C-w> - delete last word
+* <C-h> - delete last character
+* <C-u> - delete last line
+* <C-y> - copy character from line ABOVE
+* <C-e> - copy character from line BELOW
 
-### Auto-complete in INSERT mode
+### 14.3 Auto-complete in INSERT mode
 
 > auto-completion uses words from the currently opened buffer (file)
 
 * <c-n> - show list of suggestions, cursor on the first line
 * <c-p> - show list of suggestions, cursor on the last line
 
+### 14.4 NORMAL mode within INSERT mode
+
+* <C-o> - toggle "pseudo-Normal" mode, examples:
+	- <c-o>dd - delete current line 
+
+### 14.5 Ctrl+r
+
+* `<C-r>=2+2`      - enter result of arithmetic calculation (in this case "4")
+* `<C-r>=&magic`   - enter value of VIM setting (in this case: "1")
+* `<C-r>=@a`       - enter content of register `a`
+* `<C-r>=MyFunc()` - call custom function defined in `~/.vimrc`
+
+### 14.6 Scrolling (Ctrl+x) in INSERT mode
+
+* Ctrl-x Ctrl-y   - scroll 1 line up
+* Ctrl-x Ctrl-e   - scroll 1 line down
+
+### 14.7 Autocompletion in INSERT mode (Ctrl+x)
+
+* Ctrl-x Ctrl-l   - insert a whole line
+* Ctrl-x Ctrl-n   - insert a text from current file
+* Ctrl-x Ctrl-i   - insert a text from included files
+* Ctrl-x Ctrl-f   - insert a file name
+* Ctrl-x Ctrl-]   - insert from tags (must have tags)
+* Ctrl-x Ctrl-o   - insert from omnicompletion. Filetype specific.
+
+### 14.8 Regular Autocompletion
+
+* Ctrl-n / Ctrl-p  - show pop-up window with auto-complete selection list
+* To move up and down the pop-up window, use Ctrl-n / Ctrl-p.
+* `:h ins-completion` - more info about this.
+
+### 14.9 insert-normal sub-mode
+
+> In `insert-normal` sub-mode, the mode indicator on bottom left:  
+> - `-- INSERT --`   - regular INSERT mode  
+> - `-- (insert) --` - insert-normal sub-mode (after Ctrl-o)  
+
+* Centering and jumping
+    - Ctrl-o zz    - center window
+    - Ctrl-o H/M/L - jump to top/middle/bottom window
+    - Ctrl-o 'a    - jump to mark 'a'
+* Repeating text
+    - Ctrl-o 100ihello
+    - Ctrl-o 10Ahello
+* Executing command line
+    - Ctrl-o !! curl https://google.com
+    - Ctrl-o !! pwd
+
 ## 15. Registers
 
-> registers are like clipboards.
-> there are 0-9 and a-z 
+> Registers are like clipboards.
+> There are 36 of them: 0-9 (special) and a-z (user):  
+> - 0-9 - last 10 yanks/deletes
+> - a-z - 26 user registers
+> - `"` - default register
 
-* :reg   - list registers
-* <C-r>" - in command-mode paste default register 
+* `:reg`   - list registers
+* `<C-r>"` - in command-mode or search-mode pastes the default register 
+* `"ayiw`  - copy word under cursor to register `a`
+* `<C-r>a` in INSERT mode - paste content of register `a`
+* `<C-r>0` in INSERT mode - paste content of register `0` (default yank)
+* `<C-r><C-o>0` in INSERT mode - paste content of register `0` (default yank)
+
+### 15.1 Special registers
+
+* `<C-r>"`  - insert the last yank/delete
+* `<C-r>%`  - insert the current file name
+* `<C-r>#`  - insert the alternate file name
+* `<C-r>/`  - insert the last search pattern
+* `<C-r>:`  - insert the last command line
+* `<C-r>*`  - insert the clipboard contents (X11: primary selection)
+* `<C-r>+`  - insert the clipboard contents
+* `<C-r>.`  - insert the last inserted text
+* `<C-r>-`  - insert the last small (less than a line) delete
+
+### 15.2 help 
+
+* `:h i_ctrl-r`        - `<C-r>`
+* `:h c_ctrl-r`        - `<C-r>{reg}`
+* `:h i_ctrl-r_ctrl-o` - `<C-r>{reg}`
 
 ## 16. Vimgrep
 
