@@ -1,59 +1,85 @@
-# Keyboard layout: German QWERTZ
+# Keyboard layout: German (Writer)
 
 ## Layer 1 (unshifted):
 ```
  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
- │ < │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ ß │ ó │ bksp │
+ │ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ = │ bksp │
  ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬────┤
- │ tab │ q │ w │ e │ r │ t │ z │ u │ i │ o │ p │ ü │ + │ #  │
+ │ tab │ q │ w │ e │ r │ t │ y │ u │ i │ o │ p │ [ │ ] │ \  │
  ├─────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┤
- │ caps  │ a │ s │ d │ f │ g │ h │ j │ k │ l │ ö │ ä │  ent │
+ │ caps  │ a │ s │ d │ f │ g │ h │ j │ k │ l │ ; │ ' │  ent │
  ├───────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴──────┤
- │ shift   │ y │ x │ c │ v │ b │ n │ m │ , │ . │ - │  shift │
+ │ shift   │ z │ x │ c │ v │ b │ n │ m │ , │ . │ / │  shift │
  └─────────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────────┘
- ö dead key
 ```
 
 ## Layer 2 (shift):
 ```
  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
- │ > │ ! │ " │ § │ $ │ % │ & │ / │ ( │ ) │ = │ ? │ ò │ bksp │
+ │ ~ │ ! │ @ │ # │ $ │ % │ ^ │ & │ * │ ( │ ) │ _ │ + │ bksp │
  ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬────┤
- │ tab │ Q │ W │ E │ R │ T │ Z │ U │ I │ O │ P │ Ü │ * │ '  │
+ │ tab │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │ { │ } │ |  │
  ├─────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┤
- │ caps  │ A │ S │ D │ F │ G │ H │ J │ K │ L │ Ö │ Ä │  ent │
+ │ caps  │ A │ S │ D │ F │ G │ H │ J │ K │ L │ : │ " │  ent │
  ├───────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴──────┤
- │ shift   │ Y │ X │ C │ V │ B │ N │ M │ ; │ : │ _ │  shift │
+ │ shift   │ Z │ X │ C │ V │ B │ N │ M │ < │ > │ ? │  shift │
  └─────────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────────┘
- ò dead key
 ```
 
-# ↓ ↓ ↓ unfinished ↓ ↓ ↓
-
-## Layer 3 (Option-AltGr):
+# Layer 3 (macOS: Option) (Win/Linux: AltGr)
 ```
  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
- │ | │ ’ │ ² │ ³ │ — │ ¡ │ ¿ │ { │ [ │ ] │ } │ \ │ ȯ │ bksp │
+ │ ´ │ ¹ │ ² │ ³ │ ⁴ │ ⁵ │ ⁶ │ ⁷ │ ⁸ │ ⁹ │ ⁰ │ → │ ≠ │ bksp │
  ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬────┤
- │ tab │ @ │ ǒ │ € │ ő │ õ │ ö │ ŏ │ ō │ ∡ │ ỏ │ ơ │ ~ │ −  │
+ │ tab │ … │ ◌̀ │ ◌́ │ ® │ ™ │ √ │ ü │ ä │ ö │ ℗ │ ⟨ │ ⟩ │ •  │
  ├─────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┤
- │ caps  │  │  ent │
+ │ caps  │ “ │ ” │ ↓ │ ° │ æ │ ‐ │ œ │ « │ » │ § │ × │  ent │
  ├───────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴──────┤
- │ shift   │  │  shift │
+ │ shift   │ ‘ │ ’ │ © │ ⁃ │ · │ – │ — │ ‹ │ › │ ÷ │  shift │
  └─────────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────────┘
-ȯ dead key
 ```
 
-## Layer 4 (ShiftOption-AltGr):
+# Layer 4 (macOS: Option+Shift) (Win/Linux: AltGr+Shift)
 ```
  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬──────┐
- │   │   │   │   │   │   │   │   │   │   │   │   │   │ bksp │
+ │ ≈ │ ₁ │ ₂ │ ₃ │ ₄ │ ₅ │ ₆ │ ₇ │ ₈ │ ₉ │ ₀ │ ← │ ± │ bksp │
  ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬────┤
- │ tab │   │   │   │   │   │   │   │   │   │   │   │   │    │
+ │ tab │ ⌜ │ ⌝ │ ⌞ │ ⌟ │ ‰ │   │ Ü │ Ä │ Ö │ π │ ⟮ │ ⟯ │ ◦  │
  ├─────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┤
- │ caps  │   │   │   │   │   │   │   │   │   │   │   │  ent │
+ │ caps  │  │ ☺ │ ↑ │ ◌̈ │ Æ │ ‑ │ Œ │   │ ₤ │   │   │  ent │
  ├───────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴──────┤
- │ shift   │   │   │   │   │   │   │   │   │   │   │  shift │
+ │ shift   │ ⌥ │ ⌘ │ ¢ │ ⌃ │ ○ │ ◌̃ │ µ │ ☒ │ ☐ │ ☑ │  shift │
  └─────────┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────────┘
 ```
 
+# difference between German(US) and Writer: 
+ - eliminated: ø, Ø
+ - moved: ↑ (from Alt+u to Alt+Shift+d)
+ - moved: ◌̈ (from Alt+i to Alt+Shift+f)
+ - added: ü, ä, ö to Alt+(uio respectively)
+ - added: Ü, Ä, Ö to Alt+Shift+(uio respectively)
+
+## combining diacritics (combining with the previous symbol):
+- ⌥w  : ◌̀ (U+0300) combining grave accent /ɡreɪv/ or /ɡrɑːv/
+- ⌥e  : ◌́ (U+0301) combining acute accent
+- ⌥i  : ◌̈ (U+0308) combining diaeresis/umlaut (eg: naïve)
+- ⌥⇧n : ◌̃ (U+0303) combining tilde /ˈtɪldə/˜
+
+## hyphens and dashes
+- ⌥h  : ‐ (U+2010) hyphen
+- ⌥⇧h : ‑ (U+2011) non-breaking hyphen
+- ⌥v  : ⁃ (U+2043) bullet hyphen
+- ⌥n  : – (U+2013) N-dash
+- ⌥m  : — (U+2014) M-dash
+
+## Apple symbols
+- ⌥⇧a :  (U+f8ff) Apple logo
+- ⌥⇧z : ⌥ (U+2325) Option key symbol
+- ⌥⇧x : ⌘ (U+2318) Command key symbol
+- ⌥⇧v : ⌃ (U+2303) Control key symbol
+
+## Spaces
+- ⌥  - (U+2003) Em space
+- ⌥⇧ - (U+200b) Zero-width space
+
+⋯
