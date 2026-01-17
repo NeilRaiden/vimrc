@@ -20,10 +20,10 @@
 " function_SelectLayout   - function to switch between layouts
 "   function_LayoutWriter     - typing common punctuation marks
 "   function_LayoutESL        - English phonemes in L2 and L3
+"   function_LayoutShavian    - Shavian QWERTY
 "   function_LayoutUSphonemic - US English phonemic (L1 & L2)
 "   function_LayoutUKphonemic - UK English phonemic (L1 & L2)
 "   function_LayoutUKrhotic   - UK English rhotic (L1 & L2)
-"   function_LayoutShavian    - Shavian QWERTY
 "   function_LayoutFrames     - drawing frames
 "   function_LayoutASERTH     - ASERTH layout
 "   function_LayoutColemakDH  - Colemak-DH layout
@@ -100,8 +100,18 @@ function! SelectLayout(id, result)
 		call CommonImaps()
     endif
 
-    " 'US phonemic',
+    " 'Shavian',
     if a:result == 3
+		let g:layout = "Shavian"
+		imapclear
+		"let g:cheatsheet_file = expand('~/.vim/layouts/shavian.md')
+		nnoremap <leader>c :65vsp ~/.vim/layouts/shavian.md<cr>
+		call LayoutShavian()
+		call CommonImaps()
+    endif
+
+    " 'US phonemic',
+    if a:result == 4
 		let g:layout = "US phonem"
 		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/USphonemic.md')
@@ -111,7 +121,7 @@ function! SelectLayout(id, result)
     endif
 
     " 'UK phonemic',
-    if a:result == 4
+    if a:result == 5
 		let g:layout = "UK phonem"
 		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/UKphonemic.md')
@@ -121,22 +131,12 @@ function! SelectLayout(id, result)
     endif
 
     " 'UK rhotic',
-    if a:result == 5
+    if a:result == 6
 		let g:layout = "UK rhotic"
 		imapclear
 		"let g:cheatsheet_file = expand('~/.vim/layouts/UKphonemic.md')
 		nnoremap <leader>c :65vsp ~/.vim/layouts/UKrhotic.md<cr>
 		call LayoutUKrhotic()
-		call CommonImaps()
-    endif
-
-    " 'Shavian',
-    if a:result == 6
-		let g:layout = "Shavian"
-		imapclear
-		"let g:cheatsheet_file = expand('~/.vim/layouts/shavian.md')
-		nnoremap <leader>c :65vsp ~/.vim/layouts/shavian.md<cr>
-		call LayoutShavian()
 		call CommonImaps()
     endif
 
@@ -2158,10 +2158,10 @@ function! PopupLayouts()
   call popup_menu([
     \ 'Writer',
     \ 'ESL',
+    \ 'Shavian',
     \ 'US phonemic',
     \ 'UK phonemic',
     \ 'UK rhotic',
-    \ 'Shavian',
 	\ 'Frames',
     \ 'ASERTH',
 	\ 'Colemak-DH',

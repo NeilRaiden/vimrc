@@ -95,7 +95,7 @@ function! SelectTool(id, result)
 
 	" '10. VIM cheatsheet',
     if a:result == 10
-		80vsp ~/.vim/config/vim_cheatsheet.md
+		80vsp ~/.vim/cheatsheet.md
     endif
 
     " '11. Edit ~/.vimrc',

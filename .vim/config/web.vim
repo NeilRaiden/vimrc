@@ -34,7 +34,7 @@ function! OpenURLUnderCursor()
 			" Linux:
 			"exec 'silent! !firefox --private-window "https://neilraiden.com/"' - works
 			"exec 'silent! !firefox --private-window "' . escape(s:url, '%#!') . '"'
-			exec 'silent! !firefox --private-window "' . shellescape(s:url, 1) . '"'
+			silent exec 'silent! !firefox --private-window "' . shellescape(s:url, 1) . '"'
 			"silent exec "!xdg-open '".escape(s:url, '%#!')."'"
 			"silent exec "!gnome-open '".escape(s:url, '%#!')."'"
 			" debug:
@@ -69,13 +69,13 @@ function! OpenDictWithWordUnderCursor()
 	if has('unix')
 		" Linux:
 		"silent execute '!xdg-open ' . l:url   " works but outputs to the screen, messy!
-		exec '!firefox --private-window "' . escape(l:url, '%#!') . '"'
+		silent exec '!firefox --private-window "' . escape(l:url, '%#!') . '"'
 	elseif has('mac')
 		" MacOS:
 		silent execute '!open ' . escape(l:url, '%#!')
 	elseif (has('win32') || has('win64'))
 		" Windows (GitBash):
-		silent exec '!start ' . escape(l:url, '%#!')
+		silent execute '!start ' . escape(l:url, '%#!')
 	endif
 	redraw!
 endfunction

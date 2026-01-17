@@ -9,22 +9,28 @@
 " function DictPopup(word) - inside function refer to param as a:word
 
 function DictPopup()
-    let l:word = expand('<cword>')
-	"call popup_atcursor(split(system("dict " . a:word), '\n'), {'pos': 'topleft'})
-    "call popup_atcursor(split(system("$HOME/.bin/dict " . l:word), '\n'), {'pos': 'topleft'})
-    call popup_atcursor(split(system("$HOME/KRL/krl -e " . l:word), '\n'), {'pos': 'topleft'})
+	let l:word = expand('<cword>')
+	if has('unix')
+		"call popup_atcursor(split(system("$HOME/KRL/krl.sh -avx " . l:word), '\n'), {'pos': 'topleft'})
+		call popup_atcursor(split(system("$HOME/KRL/krl.sh -vx " . l:word), '\n'), {'pos': 'topleft'})
+		"call popup_atcursor(split(system("$HOME/KRL/krl.sh -av " . l:word), '\n'), {'pos': 'topleft'})
+	elseif has('mac')
+		"call popup_atcursor(split(system("dict " . a:word), '\n'), {'pos': 'topleft'})
+		"call popup_atcursor(split(system("$HOME/.bin/dict " . l:word), '\n'), {'pos': 'topleft'})
+		call popup_atcursor(split(system("$HOME/KRL/krl -e " . l:word), '\n'), {'pos': 'topleft'})
+	endif
 endfunction
 
 "command -nargs=1 DictPopup call DictPopup(<f-args>)
 "set keywordprg=:DictPopup
 
 function ShavianPopup()
-    let l:word = expand('<cword>')
-    call popup_atcursor(split(system("$HOME/KRL/krl -s " . l:word), '\n'), {'pos': 'topleft'})
+	let l:word = expand('<cword>')
+	call popup_atcursor(split(system("$HOME/KRL/krl -s " . l:word), '\n'), {'pos': 'topleft'})
 endfunction
 
 nnoremap <leader>h :silent call ShavianPopup()<cr>
 nnoremap <leader>d :silent call DictPopup()<cr>
 
-" test : .config acme use
+" test : .config acme use path
 " demeanor test word England English english - this is it, it works.
