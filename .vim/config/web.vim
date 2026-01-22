@@ -34,12 +34,18 @@ function! OpenURLUnderCursor()
 			" Linux:
 			"exec 'silent! !firefox --private-window "https://neilraiden.com/"' - works
 			"exec 'silent! !firefox --private-window "' . escape(s:url, '%#!') . '"'
+			" !firefox -new-tab "https://..."
+			" !opera --private   --new-tab URL
+			" !opera --incognito --new-tab URL
+			" Gnome: "gio open URL"
 			silent exec 'silent! !firefox --private-window "' . shellescape(s:url, 1) . '"'
 			"silent exec "!xdg-open '".escape(s:url, '%#!')."'"
 			"silent exec "!gnome-open '".escape(s:url, '%#!')."'"
 			" debug:
 			"redir >> @", | exec "!xdg-open '" . escape(s:url, '%#!') . "'" | redir END 
 			"redir > output.log | exec "!xdg-open '" . escape(s:url, '%#!') . "'" | redir END
+			" opera:
+			" /usr/lib64/opera-stable/opera --incognito
 		elseif has('mac')
 			" MacOS:
 			silent exec "!open '".escape(s:url, '%#!')."'"
@@ -60,6 +66,7 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 " ------------
 " --- open Web Dictionary with word under cursor
 " --- shortcut key: gy  - in NORMAL mode only
+" --- test: museum
 function! OpenDictWithWordUnderCursor()
     let l:word = expand('<cword>')
 	let l:url = 'https://www.collinsdictionary.com/us/dictionary/english/' . l:word
@@ -69,7 +76,23 @@ function! OpenDictWithWordUnderCursor()
 	if has('unix')
 		" Linux:
 		"silent execute '!xdg-open ' . l:url   " works but outputs to the screen, messy!
-		silent exec '!firefox --private-window "' . escape(l:url, '%#!') . '"'
+		" - Firefox: 
+		"   works, but stays in terminal unless Firefox is already running:
+		"silent execute '!firefox --private-window "' . escape(l:url, '%#!') . '"'
+		" - Opera:
+		"   works, but stays in terminal unless Opera is already running:
+		"silent execute '!opera --private --new-tab "' . escape(l:url, '%#!') . '"'
+		"silent execute '!opera --new-tab "' . escape(l:url, '%#!') . '"'
+		" - Falkon:
+		"silent execute '!falkon --new-tab "' . escape(l:url, '%#!') . '"'
+		" - XDG = default browser:
+		"   note: xdg-open returns a lot of trash -> two solutions
+		"         1. create bash script to start xdg-open and redirect output
+		"         2. create alias/function in .bashrc to launch xdg-open
+		" In this case the path to script ~/.vim/bin/xdg-zen,
+		" was added to PATH in ~/.bashrc:
+		" export PATH=$PATH:$HOME/.vim/bin
+		silent execute '!xdg-zen "' . escape(l:url, '%#!') . '"'
 	elseif has('mac')
 		" MacOS:
 		silent execute '!open ' . escape(l:url, '%#!')

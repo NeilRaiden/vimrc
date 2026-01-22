@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [[ "${1}" == "" ]]; then
+	echo "The script argument must be a link!\nExiting."
+	exit 1;
+else
+	xdg-open ${1} >> ~/tmp/xdg-zen.out 2>&1
+fi
+
